@@ -13,6 +13,16 @@ Removes outdated system logs
 Cleans up unnecessary temporary files
 Deletes old iOS backups
 Runs macOS's built-in maintenance scripts
-Optimizes Homebrew installations (if available)
 Refreshes Finder and Dock for improved responsiveness
+```
+
+# Usage 🛠️
+1. Clone the Repository or Download the file
+2. Make the Script Executable
+```bash
+chmod +x cleanup_mac.sh
+```
+3. Run the Script
+```bash
+sudo bash ./refresh.sh
 ```
