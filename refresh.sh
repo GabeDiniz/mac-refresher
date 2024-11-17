@@ -26,14 +26,6 @@ sudo killall -HUP mDNSResponder
 echo "Clearing saved states for applications..."
 rm -rf ~/Library/Saved\ Application\ State/*
 
-# Cleanup Homebrew (if installed)
-if command -v brew &> /dev/null
-then
-  echo "Cleaning up Homebrew cache..."
-  brew cleanup -s
-  rm -rf "$(brew --cache)"
-fi
-
 # Run macOS Maintenance Scripts
 echo "Running macOS maintenance scripts..."
 sudo periodic daily weekly monthly
