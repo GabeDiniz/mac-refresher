@@ -1,33 +1,32 @@
 #!/bin/bash
 
-# Clear System and User Caches
-echo "Clearing system and user caches..."
-sudo rm -rf /Library/Caches/*
+# Clear User Caches
+echo "Clearing user caches..."
 rm -rf ~/Library/Caches/*
 
-# Clear System Logs
-echo "Clearing system logs..."
-sudo rm -rf /var/log/*
-rm -rf ~/Library/Logs/*
+# Clear System Caches (SIP-protected areas are skipped)
+echo "Clearing system caches..."
+sudo rm -rf /Library/Caches/* 2>/dev/null || echo "Skipped SIP-protected caches."
 
-# Remove Temporary Files
+# Clear Logs
+echo "Clearing logs..."
+rm -rf ~/Library/Logs/*
+sudo rm -rf /var/log/* 2>/dev/null || echo "Skipped SIP-protected logs."
+
+# Remove Temporary Files (Handles SIP restrictions)
 echo "Removing temporary files..."
-sudo rm -rf /private/var/folders/*
+sudo rm -rf /private/var/folders/* 2>/dev/null || echo "Skipped SIP-protected temporary files."
 
 # Flush DNS Cache
 echo "Flushing DNS cache..."
 sudo dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 
-# Clear Application Saved States
+# Clean Application Saved States
 echo "Clearing saved states for applications..."
 rm -rf ~/Library/Saved\ Application\ State/*
 
-# Remove Old iOS Backups
-echo "Removing old iOS backups..."
-rm -rf ~/Library/Application\ Support/MobileSync/Backup/*
-
-# Clean up Homebrew cache if installed
+# Cleanup Homebrew (if installed)
 if command -v brew &> /dev/null
 then
   echo "Cleaning up Homebrew cache..."
@@ -35,11 +34,11 @@ then
   rm -rf "$(brew --cache)"
 fi
 
-# Run macOS maintenance scripts
+# Run macOS Maintenance Scripts
 echo "Running macOS maintenance scripts..."
 sudo periodic daily weekly monthly
 
-# Restart Finder and Dock to free up memory
+# Restart Finder and Dock
 echo "Restarting Finder and Dock..."
 killall Finder
 killall Dock
